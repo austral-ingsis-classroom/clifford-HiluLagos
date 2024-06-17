@@ -1,27 +1,27 @@
 package edu.austral.ingsis.clifford.Commands;
 
 import edu.austral.ingsis.clifford.system.FileSystem;
+import java.util.Objects;
 
-public class PwdCommand implements Command{
+public class PwdCommand implements Command {
 
-    private FileSystem fileSystem;
+  private FileSystem fileSystem;
 
-    public PwdCommand(FileSystem fileSystem){
-        this.fileSystem = fileSystem;
+  public PwdCommand(FileSystem fileSystem) {
+    this.fileSystem = fileSystem;
+  }
+
+  @Override
+  public String execute(String[] args) {
+    if (args.length != 0) {
+      return "Command takes no arguments";
     }
-
-    @Override
-    public String execute(String[] args) {
-        if(args.length != 0){
-            return "Command takes no arguments";
-        }
-        FileSystem root = fileSystem.moveToRoot();
-        String result = "";
-        FileSystem current = root;
-        while(current.getName() != fileSystem.getName()){
-            result = result + "/";
-            result = result + current.getName();
-        }
-        return result;
+    FileSystem current = fileSystem;
+    StringBuilder result = new StringBuilder();
+    while (!Objects.equals(current.getName(), "/")) {
+      result.insert(0, "/" + current.getName());
+      current = current.getParent();
     }
+    return result.toString();
+  }
 }
