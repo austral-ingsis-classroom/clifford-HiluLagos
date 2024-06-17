@@ -51,9 +51,14 @@ public class LsCommand implements Command {
     }
 
     private String formatChildren(List<String> children) {
+        if(children.isEmpty()){
+            return "";
+        }
         StringBuilder result = new StringBuilder();
-        for(String name : children){
-            result.append(name).append(" ");
+        result.append(children.getFirst());
+        for(int i=1; i < children.size(); i++){
+            result.append(" ");
+            result.append(children.get(i));
         }
         return result.toString();
     }

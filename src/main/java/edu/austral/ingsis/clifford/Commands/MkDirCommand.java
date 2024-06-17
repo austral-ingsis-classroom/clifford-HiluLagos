@@ -1,13 +1,14 @@
 package edu.austral.ingsis.clifford.Commands;
 
+import edu.austral.ingsis.clifford.system.Directory;
 import edu.austral.ingsis.clifford.system.File;
 import edu.austral.ingsis.clifford.system.FileSystem;
 
-public class TouchCommand implements Command{
+public class MkDirCommand implements Command{
 
     private final FileSystem fileSystem;
 
-    public TouchCommand(FileSystem fileSystem){
+    public MkDirCommand(FileSystem fileSystem){
         this.fileSystem = fileSystem;
     }
 
@@ -18,11 +19,12 @@ public class TouchCommand implements Command{
         }
         else {
             if (fileSystem instanceof File) {
-                return "Can not add a file to a file";
+                return "Can not add a directory to a file";
             }
             String name = args[0];
-            fileSystem.addChildren(new File(name, fileSystem));
-            return "'" + name + "' " + "file created";
+            fileSystem.addChildren(new Directory(name, fileSystem));
+            return "'" + name + "' " + "directory created";
         }
     }
+
 }

@@ -12,8 +12,15 @@ public interface FileSystem {
 
     public String addChildren(FileSystem child);
 
-    public String removeChildren(String name);
+    public String removeChild(String name);
+
+    public String removeChildren();
+
+    public FileSystem moveToParentDirectory();
+
+    public FileSystem moveToRoot();
 
     public FileSystem getChild(String name);
 
+    public FileSystem getParent();
 }

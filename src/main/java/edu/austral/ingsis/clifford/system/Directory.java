@@ -7,14 +7,17 @@ public class Directory implements FileSystem {
 
     private List<FileSystem> children;
     private final String name;
+    private final FileSystem parent;
 
     public Directory() {
         this.name = "";
+        this.parent = null;
         this.children = new ArrayList<>();
     }
 
-    public Directory(String name) {
+    public Directory(String name, FileSystem parent) {
         this.name = name;
+        this.parent = parent;
         this.children = new ArrayList<>();
     }
 
@@ -44,7 +47,7 @@ public class Directory implements FileSystem {
     }
 
     @Override
-    public String removeChildren(String name) {
+    public String removeChild(String name) {
         for(FileSystem child : children) {
             if(child.getName().equals(name)) {
                 children.remove(child);
@@ -55,6 +58,14 @@ public class Directory implements FileSystem {
     }
 
     @Override
+    public String removeChildren() {
+        for(FileSystem child : children){
+            child.removeChildren();
+        }
+        return "Children removed";
+    }
+
+    @Override
     public FileSystem getChild(String name) {
         for(FileSystem child : children) {
             if(child.getName().equals(name)) {
@@ -62,5 +73,24 @@ public class Directory implements FileSystem {
             }
         }
         return null;
+    }
+
+    @Override
+    public FileSystem getParent() {
+        return parent;
+    }
+
+    @Override
+    public FileSystem moveToParentDirectory() {
+        return parent;
+    }
+
+    @Override
+    public FileSystem moveToRoot() {
+        FileSystem current = this;
+        while (current.getParent() != null) {
+            current = current.getParent();
+        }
+        return current;
     }
 }
