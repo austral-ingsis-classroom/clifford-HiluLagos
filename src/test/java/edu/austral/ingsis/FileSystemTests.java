@@ -49,7 +49,6 @@ public class FileSystemTests {
             entry("pwd", "/emily"),
             entry("touch elizabeth.txt", "'elizabeth.txt' file created"),
             entry("mkdir t-bone", "'t-bone' directory created"),
-            // entry("ls", "elizabeth t-bone"))); //ESTA MAL: Toma a elizabeth sin el ".txt"
             entry("ls", "elizabeth.txt t-bone")));
   }
 
@@ -63,10 +62,11 @@ public class FileSystemTests {
             entry("cd emily", "moved to directory 'emily'"),
             entry("touch elizabeth.txt", "'elizabeth.txt' file created"),
             entry("mkdir t-bone", "'t-bone' directory created"),
-            entry("touch elizabeth.txt", "'elizabeth.txt' file created"),
-            entry("ls", "t-bone elizabeth.txt"),
-            // entry("rm", "cannot remove 't-bone', is a directory"), ESTA MAL "rm" sin argumentos
-            // debe dar error
+            entry("ls", "elizabeth.txt t-bone"),
+            // MODIFICADO: Cambiado el orden de los archivos para matchear el orden default
+            // solicitado por los otros 3 tests que lo piden en orden de mas viejo a mas nuevo y no
+            // al reves como este
+            entry("rm t-bone", "cannot remove 't-bone', is a directory"),
             entry("rm --recursive t-bone", "'t-bone' removed"),
             entry("ls", "elizabeth.txt"),
             entry("rm elizabeth.txt", "'elizabeth.txt' removed"),
@@ -120,12 +120,11 @@ public class FileSystemTests {
             entry("mkdir emily", "'emily' directory created"),
             entry("cd emily", "moved to directory 'emily'"),
             entry("mkdir emily", "'emily' directory created"),
-            entry("touch horace.txt", "'horace.txt' file created"),
+            entry("touch emily.txt", "'emily.txt' file created"),
             entry("touch jetta.txt", "'jetta.txt' file created"),
-            // entry("ls", "emily emily.txt jetta.txt"), ESTA MAL: emily.txt nunca es creado
-            entry("rm --recursive emily", "'emily' removed")))
-    // entry("ls", "emily.txt jetta.txt"), ESTA MAL: emily.txt nunca es creado
-    // entry("ls --ord=desc", "jetta.txt emily.txt"))); ESTA MAL: emily.txt nunca es creado
-    ;
+            entry("ls", "emily emily.txt jetta.txt"),
+            entry("rm --recursive emily", "'emily' removed"),
+            entry("ls", "emily.txt jetta.txt"),
+            entry("ls --ord=desc", "jetta.txt emily.txt")));
   }
 }
